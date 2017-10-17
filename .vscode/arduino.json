@@ -1,3 +1,4 @@
 {
-    "board": "arduino:avr:megaADK"
+    "board": "arduino:avr:megaADK",
+    "sketch": "testMega.ino"
 }
