@@ -1,4 +1,5 @@
 {
     "board": "arduino:avr:megaADK",
-    "sketch": "testMega.ino"
+    "sketch": "testMega.ino",
+    "port": "COM5"
 }
