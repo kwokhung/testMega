@@ -1,5 +1,7 @@
+#include <HardwareSerial.h>
+
 #define SerialMon Serial
-HardwareSerial SerialAT = *new HardwareSerial(2);
+#define SerialAT Serial1
 #define TINY_GSM_DEBUG SerialMon
 
 #define TINY_GSM_MODEM_A6
