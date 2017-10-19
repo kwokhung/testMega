@@ -2,7 +2,7 @@
 #define App_h
 
 #define SERIAL_RATE 115200
-#define SERIAL_1_RATE 115200
+#define SERIAL_1_RATE 28800
 
 class App
 {
