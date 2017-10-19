@@ -7,7 +7,7 @@
 #define TINY_GSM_MODEM_A6
 #include "TinyGsmClient.h"
 
-#define DUMP_AT_COMMANDS
+//#define DUMP_AT_COMMANDS
 #ifdef DUMP_AT_COMMANDS
 #include "StreamDebugger.h"
 StreamDebugger debugger(SerialAT, SerialMon);
@@ -23,14 +23,16 @@ const char pass[] = "";
 void setup()
 {
     SerialMon.begin(115200);
+
     //SerialAT.begin(115200);
-    TinyGsmAutoBaud(SerialAT);
+    TinyGsmAutoBaud(SerialAT, 28800, 28800);
 
     DBG("Initializing modem...");
 
     if (!modem.restart())
     {
         delay(10000);
+
         return;
     }
 
@@ -41,6 +43,7 @@ void setup()
     if (!modem.waitForNetwork())
     {
         delay(10000);
+
         return;
     }
 
@@ -50,9 +53,11 @@ void setup()
     }
 
     DBG("Connecting to", apn);
+
     if (!modem.gprsConnect(apn, user, pass))
     {
         delay(10000);
+
         return;
     }
 
@@ -67,6 +72,21 @@ void setup()
     DBG("Signal quality:", modem.getSignalQuality());
 
     DBG("Battery lavel:", modem.getBattPercent());
+
+    modem.gprsDisconnect();
+
+    if (!modem.isGprsConnected())
+    {
+        DBG("GPRS disconnected");
+    }
+    else
+    {
+        DBG("GPRS disconnect: Failed.");
+    }
+
+    DBG("Poweroff.");
+    
+    modem.poweroff();
 }
 
 void loop()
