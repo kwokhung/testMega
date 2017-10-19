@@ -7,7 +7,7 @@
 #define TINY_GSM_MODEM_A6
 #include "TinyGsmClient.h"
 
-//#define DUMP_AT_COMMANDS
+#define DUMP_AT_COMMANDS
 #ifdef DUMP_AT_COMMANDS
 #include "StreamDebugger.h"
 StreamDebugger debugger(SerialAT, SerialMon);
@@ -19,12 +19,16 @@ TinyGsm modem(SerialAT);
 void setup()
 {
     SerialMon.begin(115200);
+    //SerialAT.begin(115200);
     TinyGsmAutoBaud(SerialAT);
-}
 
-void loop()
-{
     DBG("Initializing modem...");
+
+    if (!modem.restart())
+    {
+        delay(10000);
+        return;
+    }
 
     DBG("Modem:", modem.getModemInfo());
 
@@ -39,7 +43,10 @@ void loop()
     {
         DBG("Network connected");
     }
+}
 
+void loop()
+{
     while (true)
     {
         modem.maintain();
