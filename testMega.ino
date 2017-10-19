@@ -16,6 +16,10 @@ TinyGsm modem(debugger);
 TinyGsm modem(SerialAT);
 #endif
 
+const char apn[] = "mobile.lte.three.com.hk";
+const char user[] = "";
+const char pass[] = "";
+
 void setup()
 {
     SerialMon.begin(115200);
@@ -36,6 +40,7 @@ void setup()
 
     if (!modem.waitForNetwork())
     {
+        delay(10000);
         return;
     }
 
@@ -43,6 +48,25 @@ void setup()
     {
         DBG("Network connected");
     }
+
+    DBG("Connecting to", apn);
+    if (!modem.gprsConnect(apn, user, pass))
+    {
+        delay(10000);
+        return;
+    }
+
+    DBG("CCID:", modem.getSimCCID());
+
+    DBG("IMEI:", modem.getIMEI());
+
+    DBG("Operator:", modem.getOperator());
+
+    DBG("Local IP:", modem.localIP());
+
+    DBG("Signal quality:", modem.getSignalQuality());
+
+    DBG("Battery lavel:", modem.getBattPercent());
 }
 
 void loop()
